@@ -24,13 +24,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     NSLog(@"ViewController:  %@",self);
-     currentViewController_ = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil];
+    currentViewController_ = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil];
     [self addChildViewController:self.currentViewController];
-     [self.view addSubview:self.currentViewController.view];
-     [self.currentViewController didMoveToParentViewController:self];
+    [self.view addSubview:self.currentViewController.view];
+    [self.currentViewController didMoveToParentViewController:self];
     [self.currentViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
    
-
     
 }
 
