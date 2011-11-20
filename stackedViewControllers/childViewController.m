@@ -56,8 +56,6 @@
     [super dealloc];
 }
 - (IBAction)swapViewController:(id)sender {
-    NSLog(@"swapViewController start");
-    NSLog(@"    parentViewController:  %@",self.parentViewController);
-    [self.parentViewController swapViewControllers];
+    [(ViewController *)self.parentViewController swapViewControllers];
 }
 @end
