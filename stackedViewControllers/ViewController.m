@@ -40,15 +40,17 @@
 }
 
 -(void)swapViewControllers{
-    childViewController *aNewViewController = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil];
+    childViewController *aNewViewController = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil] ;
     
     [self addChildViewController:aNewViewController];
     [self transitionFromViewController:self.currentViewController
                       toViewController:aNewViewController
-                              duration:1.0 options:UIViewAnimationOptionTransitionCurlUp
+                              duration:1.0 
+                               options:UIViewAnimationOptionTransitionCurlUp
                             animations:nil
                             completion:^(BOOL finished) {
                                 [aNewViewController didMoveToParentViewController:self];
+                                [self.currentViewController removeFromParentViewController];
                                 [aNewViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
                                 
                                 self.currentViewController=[aNewViewController autorelease];
