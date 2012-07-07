@@ -10,6 +10,7 @@
 #import "ViewController.h"
 
 @implementation childViewController
+@synthesize childNumberLabel;
 @synthesize swapViewControllerButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -40,6 +41,7 @@
 - (void)viewDidUnload
 {
     [self setSwapViewControllerButton:nil];
+    [self setChildNumberLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -53,6 +55,7 @@
 
 - (void)dealloc {
     [swapViewControllerButton release];
+    [childNumberLabel release];
     [super dealloc];
 }
 - (IBAction)swapViewController:(id)sender {

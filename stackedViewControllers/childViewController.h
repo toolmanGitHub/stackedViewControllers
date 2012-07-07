@@ -11,5 +11,6 @@
 @interface childViewController : UIViewController
 @property (retain, nonatomic) IBOutlet UIButton *swapViewControllerButton;
 - (IBAction)swapViewController:(id)sender;
+@property (retain, nonatomic) IBOutlet UILabel *childNumberLabel;
 
 @end

@@ -10,6 +10,7 @@
 @class childViewController;
 @interface ViewController : UIViewController
 @property (nonatomic,retain) childViewController *currentViewController;
+@property NSInteger childNumber;
 
 -(void)swapViewControllers;
 @end

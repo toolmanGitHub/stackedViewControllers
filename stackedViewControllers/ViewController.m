@@ -11,6 +11,7 @@
 
 @implementation ViewController
 @synthesize currentViewController = currentViewController_;
+@synthesize childNumber;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -22,6 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    childNumber=0;
 	// Do any additional setup after loading the view, typically from a nib.
     NSLog(@"ViewController:  %@",self);
     currentViewController_ = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil];
@@ -29,6 +31,9 @@
     [self.view addSubview:self.currentViewController.view];
     [self.currentViewController didMoveToParentViewController:self];
     [self.currentViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
+    
+    self.currentViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
+    
    
     
 }
@@ -42,19 +47,28 @@
 -(void)swapViewControllers{
     childViewController *aNewViewController = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil] ;
     
+    childNumber++;
+    
+    [aNewViewController.view layoutIfNeeded];
+    [aNewViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
+    aNewViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
     [self addChildViewController:aNewViewController];
+    
+    __weak __block ViewController *weakSelf=self;
     [self transitionFromViewController:self.currentViewController
-                      toViewController:aNewViewController
-                              duration:1.0 
-                               options:UIViewAnimationOptionTransitionCurlUp
-                            animations:nil
-                            completion:^(BOOL finished) {
-                                [aNewViewController didMoveToParentViewController:self];
-                                [self.currentViewController removeFromParentViewController];
-                                [aNewViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
-                                
-                                self.currentViewController=[aNewViewController autorelease];
-                            }];
+                  toViewController:aNewViewController
+                          duration:1.0 
+                           options:UIViewAnimationOptionTransitionCurlUp
+                        animations:nil
+                        completion:^(BOOL finished) {
+                            
+                            [aNewViewController didMoveToParentViewController:weakSelf];
+                            
+                            [weakSelf.currentViewController willMoveToParentViewController:nil];
+                            [weakSelf.currentViewController removeFromParentViewController];
+                            
+                            weakSelf.currentViewController=[aNewViewController autorelease];
+                        }];
 }
 
 
