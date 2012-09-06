@@ -13,4 +13,5 @@
 @property NSInteger childNumber;
 
 -(void)swapViewControllers;
+-(void)pushViewControllers;
 @end

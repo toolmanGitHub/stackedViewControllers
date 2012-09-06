@@ -61,4 +61,8 @@
 - (IBAction)swapViewController:(id)sender {
     [(ViewController *)self.parentViewController swapViewControllers];
 }
+
+- (IBAction)pushViewController:(id)sender{
+    [(ViewController *)self.parentViewController pushViewControllers];
+}
 @end

@@ -52,6 +52,7 @@
     [aNewViewController.view layoutIfNeeded];
     [aNewViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
     aNewViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
+    
     [self addChildViewController:aNewViewController];
     
     __weak __block ViewController *weakSelf=self;
@@ -69,6 +70,44 @@
                             
                             weakSelf.currentViewController=[aNewViewController autorelease];
                         }];
+}
+
+-(void)pushViewControllers{
+    childViewController *aNewViewController = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil] ;
+    
+    childNumber++;
+    
+    [aNewViewController.view layoutIfNeeded];
+    aNewViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
+    
+    CGRect inputViewFrame=self.view.frame;
+    CGFloat inputViewWidth=inputViewFrame.size.width;
+    
+    CGRect newFrame=CGRectMake(self.view.bounds.size.width, 0, inputViewFrame.size.width, inputViewFrame.size.height);
+    
+    aNewViewController.view.frame=newFrame;
+   
+    [self addChildViewController:aNewViewController];
+    
+    [self.view addSubview:aNewViewController.view];
+    
+    [self.currentViewController willMoveToParentViewController:nil];
+    
+    CGRect offSetRect=CGRectOffset(newFrame, -inputViewWidth, 0.0f);
+    
+    __weak __block ViewController *weakSelf=self;
+    [UIView animateWithDuration:0.4 animations:^{
+        aNewViewController.view.frame=offSetRect;
+    }
+                     completion:^(BOOL finished){
+                         [aNewViewController didMoveToParentViewController:weakSelf];
+                         
+                         [weakSelf.currentViewController.view removeFromSuperview];
+                         [weakSelf.currentViewController removeFromParentViewController];
+                         
+                         weakSelf.currentViewController=[aNewViewController autorelease];
+                     }];
+
 }
 
 
