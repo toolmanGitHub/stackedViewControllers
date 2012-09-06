@@ -135,7 +135,7 @@
 		EC058A88147873ED00601AF5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Big Diggy SW";
 			};
 			buildConfigurationList = EC058A8B147873ED00601AF5 /* Build configuration list for PBXProject "stackedViewControllers" */;
@@ -297,6 +297,7 @@
 				EC058AB4147873EE00601AF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
