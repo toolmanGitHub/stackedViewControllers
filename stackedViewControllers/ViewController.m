@@ -53,6 +53,7 @@
     [aNewViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
     aNewViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
     
+    [self.currentViewController willMoveToParentViewController:nil];
     [self addChildViewController:aNewViewController];
     
     __weak __block ViewController *weakSelf=self;
@@ -63,10 +64,8 @@
                         animations:nil
                         completion:^(BOOL finished) {
                             
-                            [aNewViewController didMoveToParentViewController:weakSelf];
-                            
-                            [weakSelf.currentViewController willMoveToParentViewController:nil];
                             [weakSelf.currentViewController removeFromParentViewController];
+                            [aNewViewController didMoveToParentViewController:weakSelf];
                             
                             weakSelf.currentViewController=[aNewViewController autorelease];
                         }];
@@ -87,6 +86,7 @@
     
     aNewViewController.view.frame=newFrame;
    
+    [self.currentViewController willMoveToParentViewController:nil];
     [self addChildViewController:aNewViewController];
     
     [self.view addSubview:aNewViewController.view];
@@ -100,10 +100,10 @@
         aNewViewController.view.frame=offSetRect;
     }
                      completion:^(BOOL finished){
-                         [aNewViewController didMoveToParentViewController:weakSelf];
-                         
+                                                  
                          [weakSelf.currentViewController.view removeFromSuperview];
                          [weakSelf.currentViewController removeFromParentViewController];
+                         [aNewViewController didMoveToParentViewController:weakSelf];
                          
                          weakSelf.currentViewController=[aNewViewController autorelease];
                      }];
