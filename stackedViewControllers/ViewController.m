@@ -27,7 +27,9 @@
 	// Do any additional setup after loading the view, typically from a nib.
     NSLog(@"ViewController:  %@",self);
     currentViewController_ = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil];
+    
     [self addChildViewController:self.currentViewController];
+    currentViewController_.view.frame=self.view.bounds;
     [self.view addSubview:self.currentViewController.view];
     [self.currentViewController didMoveToParentViewController:self];
     [self.currentViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
@@ -40,7 +42,7 @@
 
 #pragma mark -
 #pragma mark UIViewController Container Methods
-- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers{
+- (BOOL)shouldAutomaticallyForwardRotationMethods{
     return YES;
 }
 
@@ -48,11 +50,11 @@
     childViewController *aNewViewController = [[childViewController alloc] initWithNibName:@"childViewController" bundle:nil] ;
     
     childNumber++;
-    
     [aNewViewController.view layoutIfNeeded];
     [aNewViewController.swapViewControllerButton setTitle:@"Swap" forState:UIControlStateNormal];
     aNewViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
-    
+   
+    aNewViewController.view.frame=self.view.bounds;
     [self.currentViewController willMoveToParentViewController:nil];
     [self addChildViewController:aNewViewController];
     
@@ -79,28 +81,29 @@
     [aNewViewController.view layoutIfNeeded];
     aNewViewController.childNumberLabel.text=[NSString stringWithFormat:@"Child Number:  %d",self.childNumber];
     
-    CGRect inputViewFrame=self.view.frame;
+    CGRect inputViewFrame=self.view.bounds;
     CGFloat inputViewWidth=inputViewFrame.size.width;
     
     CGRect newFrame=CGRectMake(self.view.bounds.size.width, 0, inputViewFrame.size.width, inputViewFrame.size.height);
-    
-    aNewViewController.view.frame=newFrame;
    
+    aNewViewController.view.frame=newFrame;
+    
     [self.currentViewController willMoveToParentViewController:nil];
     [self addChildViewController:aNewViewController];
-    
     [self.view addSubview:aNewViewController.view];
     
     [self.currentViewController willMoveToParentViewController:nil];
     
     CGRect offSetRect=CGRectOffset(newFrame, -inputViewWidth, 0.0f);
+    CGRect otherOffsetRect=CGRectOffset(self.currentViewController.view.frame, -inputViewWidth, 0.0f);
     
     __weak __block ViewController *weakSelf=self;
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.4f animations:^{
         aNewViewController.view.frame=offSetRect;
+        weakSelf.currentViewController.view.frame=otherOffsetRect;
     }
                      completion:^(BOOL finished){
-                                                  
+                         
                          [weakSelf.currentViewController.view removeFromSuperview];
                          [weakSelf.currentViewController removeFromParentViewController];
                          [aNewViewController didMoveToParentViewController:weakSelf];
